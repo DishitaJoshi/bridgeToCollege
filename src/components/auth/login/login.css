@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+
+/* OR divider styling */
+.OR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: #9ca3af; /* gray-400 */
+}
+
+.OR > .border-b-2 {
+  border-bottom: 1px solid #4b5563; /* gray-600 */
+  flex-grow: 1;
+  margin: 0 1rem;
+}
+
+/* Google Sign-In button customized for dark theme */
+.google-signin-btn {
+  background-color: #1f2937 !important; /* gray-800 */
+  border: 1px solid #4b5563 !important; /* gray-600 */
+  border-radius: 9999px !important; /* fully rounded */
+  padding: 0.75rem 1.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  font-weight: 500 !important;
+  color: #f3f4f6 !important; /* gray-100 */
+  transition: all 0.3s ease !important;
+  font-size: 1rem !important;
+  width: 100% !important;
+  margin: 0.5rem auto 0 auto !important;
+}
+
+.google-signin-btn:hover:not(:disabled) {
+  background-color: #374151 !important; /* gray-700 */
+  border-color: #9ca3af !important; /* gray-400 */
+  transform: translateY(-1px);
+}
+
+.google-signin-btn:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+.google-signin-btn svg {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Custom Auth Components (Bypassing Tailwind JIT) */
+.auth-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #111827 !important; /* Tailwind gray-900 */
+  padding: 0 1rem;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 28rem;
+  color: #d1d5db; /* gray-300 */
+  margin: 2rem 0;
+  padding: 2rem;
+  background-color: rgba(31, 41, 55, 0.8) !important; /* gray-800 with opacity */
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(55, 65, 81, 0.5); /* gray-700 opacity */
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-input {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #f3f4f6 !important; /* white */
+  background-color: rgba(17, 24, 39, 0.5) !important; /* gray-900 opacity */
+  outline: none;
+  border: 1px solid #4b5563 !important; /* gray-600 */
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.auth-input:focus {
+  border-color: #3b82f6 !important; /* blue-500 */
+  box-shadow: 0 0 0 1px #3b82f6 !important;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background-color: #3b82f6 !important; /* Matches restart-btn in FindMajor */
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background-color: #2563eb !important; /* Matches restart-btn:hover */
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled {
+  background-color: #4b5563 !important; /* gray-600 */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.auth-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #d1d5db; /* gray-300 */
+  letter-spacing: 0.025em;
+  display: block;
+}

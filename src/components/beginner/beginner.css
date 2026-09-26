@@ -1,0 +1,253 @@
+/* Import Google Fonts - Inter for a clean, modern look */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Apply base styles to the body and root elements */
+body,
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Fixed height to prevent full body scroll, let inner flex scroll */
+  font-family: 'Poppins', sans-serif;
+  background-color: #111827;
+}
+
+/* New CSS rule for the logout button positioning */
+.logout-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+/* Beginner title container - Clean standard block layout */
+.beginner-title {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 1rem;
+  background-color: transparent;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 1rem;
+}
+
+.under-beginner-title {
+  text-align: center;
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 2rem;
+}
+
+/* Styles for the main chat container - FULL HEIGHT FLEX COLUMN */
+.flex.flex-col.items-center.justify-center.min-h-screen.p-2.bg-gray-900.font-sans.text-gray-100 {
+  background-color: #111827;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden; /* Hide outer scroll, handle scroll internally */
+}
+
+/* Styles for the chat message display area - ChatGPT style */
+.overflow-y-auto.h-96.border.border-gray-300.rounded.p-3.space-y-2 {
+  flex-grow: 1; /* Take up all available vertical space */
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto; /* Scroll internally */
+  padding: 1rem 3rem;
+  /* Removed border, height limits, and explicit background */
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrap the input at the bottom */
+.input-wrapper-spacer {
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, transparent, #111827 20%);
+  padding-bottom: 2rem;
+  padding-right: 3rem;
+  padding-left: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Specific styles for message bubbles */
+.bg-green-200.text-gray-800.px-4.py-2.rounded-2xl.max-w-xs.break-words {
+  background-color: #d2e3fc; /* AI Color */
+  color: #202124;
+  border-radius: 20px;
+  padding: 15px 20px;
+  max-width: 70%;
+  line-height: 1.5;
+}
+
+/* Specific styles for user message bubbles */
+.flex.justify-end .bg-green-200.text-gray-800.px-4.py-2.rounded-2xl.max-w-xs.break-words {
+  background-color: #cee7d6; /* User Color */
+  color: #202124;
+  border-radius: 20px;
+  padding: 15px 20px;
+  max-width: 70%;
+}
+
+/* Shared styling for both User and AI Avatars */
+.text-2xl {
+  margin-right: 12px;
+  font-size: 1.5rem;
+  margin-top: 5px; /* Alignment tweak with text */
+}
+
+/* Adjust row container for individual messages */
+.flex.justify-start.mb-2, .flex.justify-end.mb-2 {
+  margin-bottom: 24px; /* More breathing room */
+  width: 100%;
+}
+
+/* Styles for the curved input box container */
+.gemini-input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px; /* limits width to align aesthetically on right */
+  background-color: #ffffff; /* pure white pops against the background */
+  border-radius: 24px;
+  padding: 10px 16px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* very subtle drop shadow */
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Styles for the text area */
+.gemini-input-container textarea {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  resize: none;
+  font-size: 16px;
+  min-height: 24px;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #1f2937;
+  padding: 8px 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Basic markdown styling for consistency */
+.react-markdown p {
+  margin-bottom: 0.5em;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+
+.react-markdown strong {
+  font-weight: 600;
+}
+
+.react-markdown em {
+  font-style: italic;
+}
+
+.react-markdown ul,
+.react-markdown ol {
+  list-style-position: inside;
+  padding-left: 1rem;
+}
+
+.react-markdown li {
+  margin-bottom: 0.5em; /* Spaced out lists slightly */
+}
+
+/* Recommended Questions Layout */
+.flex.flex-col.items-end.space-y-5.mb-2 {
+  margin-top: 1rem;
+  width: 100%;
+  align-items: flex-end !important; /* Right align the suggestions */
+  gap: 12px;
+}
+
+.recommended-question-bubble {
+  text-align: right;
+  background-color: rgba(206, 231, 214, 0.5); /* Lighter version of user color */
+  color: #2d5a3d;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(45, 90, 61, 0.2);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  width: 100%;
+  max-width: 500px; /* Keep them neat visually */
+}
+
+.recommended-question-bubble:hover {
+  background-color: rgba(206, 231, 214, 0.9);
+  transform: translateY(-1px);
+}
+
+.recommended-questions-header {
+  text-align: right;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* More specific selector to override existing styles */
+.gemini-input-container button.send-button {
+  background-color: #2d5a3d !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 50% !important; /* Circle button like ChatGPT */
+  width: 36px !important;
+  height: 36px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  margin-left: 12px !important;
+  margin-top: 0 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: none !important; /* Flat design matches input field */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.gemini-input-container button.send-button:hover:not(:disabled) {
+  background-color: #1f4029 !important;
+}
+
+.gemini-input-container button.send-button:disabled {
+  background-color: #e5e7eb !important;
+  color: #9ca3af !important;
+  cursor: not-allowed !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .overflow-y-auto.h-96.border.border-gray-300.rounded.p-3.space-y-2 {
+    padding: 1rem;
+  }
+  
+  .gemini-input-container {
+    width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .bg-green-200.text-gray-800.px-4.py-2.rounded-2xl.max-w-xs.break-words,
+  .flex.justify-end .bg-green-200.text-gray-800.px-4.py-2.rounded-2xl.max-w-xs.break-words {
+    max-width: 95%; /* More horizontal space for text on mobile */
+  }
+}

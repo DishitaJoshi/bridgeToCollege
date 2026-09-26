@@ -1,0 +1,820 @@
+/* Imports managed in index.html */
+
+/* Container */
+.landing-container {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #111827;
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
+    width: 100vw;
+    /* Ensure full width */
+    max-width: 100%;
+    /* Prevent overflow */
+}
+
+/* Navbar */
+.navbar-header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem clamp(1rem, 4vw, 2rem);
+    /* Fluid padding */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    min-height: 70px;
+    /* Increased minimum height to account for content */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background-color: #111827 !important;
+    border-bottom: 1px solid #374151 !important;
+}
+
+/* Mobile-first navbar layout */
+@media (max-width: 767px) {
+    .navbar-header {
+        justify-content: space-between;
+        flex-direction: row;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        min-height: 60px;
+        /* Keep consistent height */
+    }
+
+    /* Hide nav links on mobile */
+    .navbar-links {
+        display: none;
+    }
+
+    /* Better button alignment */
+    .auth-buttons {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        flex-shrink: 0;
+        /* Prevent shrinking */
+    }
+
+    /* Make buttons more compact but readable */
+    .login-btn,
+    .signup-btn,
+    .feedback-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        min-width: 70px;
+        white-space: nowrap;
+    }
+
+    /* Keep home link readable */
+    .home-link {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+}
+
+/* Small tablet layout */
+@media (min-width: 480px) and (max-width: 767px) {
+    .navbar-header {
+        justify-content: space-between;
+        flex-direction: row;
+        padding: 1rem 1.5rem;
+        min-height: 60px;
+    }
+
+    /* Show navbar links on small tablets */
+    .navbar-links {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+/* Tablet layout */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .navbar-header {
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+    }
+}
+
+/* Desktop layout */
+@media (min-width: 1024px) {
+    .navbar-header {
+        justify-content: space-between;
+        padding: 1rem 2rem;
+    }
+}
+
+.home-link {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    /* Fluid font size */
+    transition: color 0.3s;
+    color: white;
+    text-decoration: none;
+}
+
+.home-link:hover {
+    color: #4a6286;
+    /* blue-600 equivalent */
+}
+
+.navbar-links {
+    display: flex;
+    gap: clamp(1rem, 4vw, 2rem);
+    /* Fluid gap */
+    color: #d1d5db;
+    /* gray-300 */
+    font-weight: 500;
+    flex-wrap: wrap;
+    /* Allow wrapping */
+}
+
+.nav-link {
+    color: #d1d5db;
+    text-decoration: none;
+    white-space: nowrap;
+    /* Prevent text wrapping in individual links */
+}
+
+.nav-link:hover {
+    color: #d9e6dd;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    /* space-x-4 */
+    flex-wrap: nowrap;
+    /* Prevent wrapping to avoid layout breaks */
+    align-items: center;
+}
+
+.login-btn {
+    padding: 0.5rem 1.25rem;
+    color: white;
+    /* white */
+    border: 1.5px solid white;
+    background-color: transparent;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+    text-decoration: none;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* very subtle fill */
+}
+
+.signup-btn {
+    padding: 0.5rem 1.25rem;
+    background-color: white;
+    /* white */
+    color: black;
+    border: 1.5px solid white;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+    text-decoration: none;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.signup-btn:hover {
+    background-color: #f3f4f6;
+    /* light gray */
+    border-color: #f3f4f6;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Section - FIXED SPACING */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Changed from center to flex-start */
+    flex: 1;
+    text-align: center;
+    padding: 0 1.5rem clamp(2rem, 8vh, 5rem);
+    /* Removed top padding, keep horizontal and bottom */
+    min-height: calc(100vh - 120px);
+    /* Much larger buffer */
+    /* Reduced margin and padding to bring the title up */
+    margin-top: 80px !important;
+    padding: 2rem 0rem 0rem 0rem;
+}
+
+@media (min-width: 1024px) {
+    .navbar-header {
+        justify-content: space-between;
+        padding: 1rem 2rem;
+    }
+
+    .hero-content {
+        /* Set padding to 0 or a smaller fixed value */
+        padding: 0 5rem;
+        /* Example: A smaller fixed padding */
+    }
+}
+
+.hero-content {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 2rem);
+    /* Fluid horizontal padding */
+    width: 100%;
+    /* Ensure it takes available width */
+}
+
+.hero-heading {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    /* Slightly larger minimum size */
+    line-height: 1.2;
+    font-weight: 700;
+    color: white;
+    /* white */
+    margin-bottom: 1.5rem;
+    word-wrap: break-word;
+    /* Prevent text overflow */
+}
+
+.hero-subheading {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    /* Slightly larger for better readability */
+    color: #d1d5db;
+    /* gray-300 */
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    /* Better readability */
+    max-width: 100%;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+    /* Take full width */
+    align-items: center;
+}
+
+@media (min-width: 640px) {
+    .hero-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        /* Allow wrapping if needed */
+        margin-top: 60px !important;
+        padding-top: 1rem !important;
+    }
+}
+
+.get-started-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #65806e;
+    color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.3s;
+    text-decoration: none;
+    min-width: 120px;
+    /* Minimum button width */
+    text-align: center;
+    white-space: nowrap;
+    /* Prevent text wrapping inside buttons */
+}
+
+.get-started-btn:hover {
+    background-color: #cee7d6;
+    color: #65806e;
+}
+
+.signup-link-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #cee7d6;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.3s;
+    background-color: #65806e;
+    color: white;
+    text-decoration: none;
+    min-width: 120px;
+    /* Minimum button width */
+    text-align: center;
+    white-space: nowrap;
+    /* Prevent text wrapping inside buttons */
+}
+
+.signup-link-btn:hover {
+    background-color: #cee7d6;
+    color: #65806e;
+}
+
+/* Style for the new buttons container */
+.top-buttons {
+    display: flex;
+    flex-direction: column;
+    /* Stack buttons vertically on mobile */
+    align-items: center;
+    /* Center the stacked buttons */
+    gap: 20px;
+    /* Space between buttons */
+    padding: 0 1rem;
+    /* Add padding to prevent edge touching */
+}
+
+/* Small tablet adjustments */
+@media (min-width: 480px) {
+    .top-buttons {
+        gap: 30px;
+        /* Intermediate gap for small tablets */
+    }
+}
+
+/* Desktop layout for top buttons */
+@media (min-width: 768px) {
+    .top-buttons {
+        flex-direction: row;
+        /* Return to horizontal layout on desktop */
+        justify-content: center;
+        /* Center the row of buttons */
+        gap: clamp(30px, 8vw, 70px);
+        /* Fluid gap */
+    }
+}
+
+/* Style for individual button links */
+.top-button {
+    display: flex;
+    /* To center the image inside */
+    align-items: center;
+    /* Vertically center the image */
+    justify-content: center;
+    /* Horizontally center the image */
+    padding: 0;
+    /* Remove default link padding */
+    background: none;
+    /* Remove default background */
+    border: none;
+    /* Remove default border */
+    border-radius: 5px;
+    /* If you want rounded corners for the button area */
+    cursor: pointer;
+    /* Add a pointer on hover */
+    transition: opacity 0.3s ease;
+    /* Add a subtle hover effect */
+}
+
+.top-button:hover {
+    opacity: 0.5;
+    /* Slightly fade on hover */
+}
+
+/* Style for the images inside the buttons */
+.button-image {
+    display: block;
+    /* Prevent extra space below inline images */
+    width: clamp(120px, 25vw, 180px);
+    /* Fluid width */
+    height: auto;
+    /* Maintain aspect ratio */
+    max-width: 100%;
+    /* Never exceed container */
+}
+
+/* Very small screen adjustments - IMPROVED */
+@media (max-width: 480px) {
+    .navbar-header {
+        padding: 0.75rem 1rem;
+        /* Better padding */
+        min-height: 60px;
+        /* Keep consistent height */
+        justify-content: space-between;
+    }
+
+    /* Hide navbar links but keep buttons visible */
+    .navbar-links {
+        display: none;
+    }
+
+    .auth-buttons {
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    /* Keep all buttons but make them compact */
+    .login-btn,
+    .feedback-btn,
+    .signup-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+        min-width: 60px;
+    }
+
+    .home-link {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    /* Ensure hero content is visible */
+    .hero-section {
+        margin-top: 80px !important;
+        /* Reduced padding to push heading way down on mobile */
+        padding-top: 2rem !important;
+        min-height: calc(100vh - 120px);
+        /* Account for larger spacing */
+        justify-content: flex-start;
+        /* Start from top rather than center */
+    }
+
+    .hero-heading {
+        font-size: 2.2rem;
+        /* Ensure it's readable */
+        margin-bottom: 1rem;
+    }
+
+    .hero-subheading {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button-image {
+        width: 110px;
+    }
+}
+
+/* Extra small screens - ultra compact but still functional */
+@media (max-width: 360px) {
+    .navbar-header {
+        padding: 0.5rem 0.75rem;
+        min-height: 60px;
+        /* Keep consistent */
+    }
+
+    .home-link {
+        font-size: 1.1rem;
+    }
+
+    /* Show only the most essential buttons */
+    .login-btn {
+        display: none;
+        /* Hide on very small screens */
+    }
+
+    .feedback-btn,
+    .signup-btn {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.75rem;
+        min-width: 50px;
+    }
+
+    .hero-section {
+        padding: 0 0.75rem 1rem;
+        /* Removed top padding from padding shorthand */
+        margin-top: 70px !important;
+        /* Consistent margin */
+        padding-top: 1.5rem !important;
+        /* Much more spacing for small tablets */
+        min-height: calc(100vh - 90px);
+        /* Consistent calculation */
+        justify-content: flex-start;
+    }
+
+    .hero-content {
+        padding: 0 0.5rem;
+    }
+
+    .hero-heading {
+        font-size: 2rem;
+        line-height: 1.1;
+    }
+
+    .hero-subheading {
+        font-size: 0.9rem;
+    }
+
+    .button-image {
+        width: 90px;
+    }
+
+    .top-buttons {
+        gap: 15px;
+        padding: 0 0.5rem;
+    }
+}
+
+/* Ultra small screens */
+@media (max-width: 320px) {
+    .navbar-header {
+        padding: 0.5rem;
+        min-height: 60px;
+        /* Keep consistent */
+    }
+
+    .home-link {
+        font-size: 1rem;
+    }
+
+    /* Show only signup button */
+    .login-btn,
+    .feedback-btn {
+        display: none;
+    }
+
+    .signup-btn {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.7rem;
+        min-width: 45px;
+        border-radius: 0.25rem;
+    }
+
+    .hero-section {
+        margin-top: 70px !important;
+        /* Consistent margin */
+        padding: 0 0.5rem 1rem;
+        /* Remove top padding from shorthand */
+        padding-top: 1.5rem !important;
+        /* Much more spacing for very small screens */
+        min-height: calc(100vh - 90px);
+        /* Consistent calculation */
+        justify-content: flex-start;
+    }
+
+    .hero-heading {
+        font-size: 1.8rem;
+    }
+
+    .hero-subheading {
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+
+    .button-image {
+        width: 75px;
+    }
+
+    .hero-content {
+        padding: 0 0.25rem;
+    }
+
+    .top-buttons {
+        gap: 12px;
+        padding: 0 0.25rem;
+    }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1200px) {
+    .hero-content {
+        max-width: 95rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        /* Reduced padding to fit 5 cards comfortably */
+    }
+}
+
+/* Ensure smooth transitions between breakpoints */
+* {
+    box-sizing: border-box;
+}
+
+/* Additional utility classes for better responsiveness */
+.text-responsive {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.container-fluid {
+    width: 100%;
+    padding-left: clamp(0.5rem, 2vw, 1rem);
+    padding-right: clamp(0.5rem, 2vw, 1rem);
+}
+
+/* Print styles */
+@media print {
+
+    .navbar-header,
+    .auth-buttons,
+    .hero-buttons {
+        display: none;
+    }
+
+    .hero-heading {
+        color: black !important;
+    }
+}
+
+.logo-link {
+    /* Set the display property to block or inline-block for sizing */
+    display: inline-block;
+
+    /* Remove default link styling */
+    text-decoration: none;
+
+    /* Use a fluid font size that scales between 18px and 32px based on the viewport width */
+    font-size: clamp(18px, 4vw, 32px);
+
+    /* Optional: Adjust color */
+    color: black;
+
+    /* Use fluid padding that scales with the viewport */
+    padding: clamp(5px, 2vw, 15px);
+
+    /* Use flexbox to easily center the logo's content */
+    display: flex;
+    align-items: center;
+    /* Vertically center the logo */
+    justify-content: center;
+    /* Horizontally center the logo */
+
+    /* Set a transition for smooth scaling effects */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Media query for very small screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+    .logo-link {
+        /* Reduce the minimum font size and padding for smaller devices */
+        font-size: clamp(16px, 4vw, 24px);
+        padding: clamp(4px, 2vw, 10px);
+    }
+}
+
+/* For the image within the link, ensure it is also responsive */
+.logo-link img {
+    width: 100%;
+    /* The image will fill the container */
+    height: auto;
+    /* Maintains the aspect ratio */
+    max-width: 60px;
+    /* Optional: Sets a maximum size for the image */
+}
+
+/* NEW ACTION CARDS */
+.action-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    /* Increased vertical spacing */
+    width: 100%;
+}
+
+.action-card {
+    background-color: rgba(31, 41, 55, 0.85); /* Dark mode card bg */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.75rem 1.5rem;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.06), 0 4px 10px -4px rgba(0, 0, 0, 0.04); 
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.action-card:hover:not(.locked-card) {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.5), 0 8px 16px -6px rgba(0, 0, 0, 0.3); /* Stronger shadow on dark bg */
+    background-color: #374151; /* Lighter dark mode card bg */
+}
+
+.card-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+/* Colors for icons */
+.bg-blue-50 {
+    background-color: #eff6ff;
+}
+
+.text-blue-600 {
+    color: #2563eb;
+}
+
+.bg-purple-50 {
+    background-color: #faf5ff;
+}
+
+.text-purple-600 {
+    color: #9333ea;
+}
+
+.bg-green-50 {
+    background-color: #f0fdf4;
+}
+
+.text-green-600 {
+    color: #16a34a;
+}
+
+.bg-gray-100 {
+    background-color: #f3f4f6;
+}
+
+.text-gray-400 {
+    color: #9ca3af;
+}
+
+.bg-yellow-50 {
+    background-color: #fefce8;
+}
+
+.text-yellow-600 {
+    color: #ca8a04;
+}
+
+.bg-orange-50 {
+    background-color: #fff7ed;
+}
+
+.text-orange-600 {
+    color: #ea580c;
+}
+
+.card-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: white;
+    font-size: 1.15rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.card-desc {
+    font-family: 'Inter', sans-serif;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.locked-card {
+    opacity: 0.65;
+    background-color: rgba(17, 24, 39, 0.6);
+    cursor: default;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.locked-badge {
+    position: absolute;
+    top: 12px;
+    right: -24px;
+    background-color: #4b5563;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 24px;
+    transform: rotate(45deg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer styling */
+.landing-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0;
+    margin-top: auto;
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer-link {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+}

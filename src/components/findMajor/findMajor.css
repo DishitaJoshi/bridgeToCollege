@@ -1,0 +1,207 @@
+.find-major-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+  padding: 2rem;
+  background-color: #111827; /* gray-900 */
+  color: #f3f4f6; /* gray-100 */
+  font-family: inherit;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Standardized title matching other pages */
+.find-major-title {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 1rem;
+  background-color: transparent;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 1rem;
+}
+
+.question-card {
+  background-color: #1f2937; /* gray-800 */
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.question-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.option-btn {
+  background-color: #374151; /* gray-700 */
+  color: #e5e7eb;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: left;
+}
+
+.option-btn:hover {
+  background-color: #4b5563; /* gray-600 */
+  border-color: #3b82f6; /* blue-500 */
+  transform: translateY(-2px);
+}
+
+.option-btn:active {
+  transform: translateY(0);
+}
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #374151;
+  border-radius: 9999px;
+  height: 8px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #3b82f6; /* blue-500 */
+  transition: width 0.3s ease;
+}
+
+.results-card {
+  background-color: #1f2937;
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.results-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #60a5fa; /* blue-400 */
+}
+
+.results-content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: left;
+  margin-bottom: 2rem;
+  color: #d1d5db; /* gray-300 */
+}
+
+.results-content h2, .results-content h3 {
+  color: #fff;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.results-content ul {
+  list-style-type: disc;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.results-content li {
+  margin-bottom: 0.5rem;
+}
+
+.results-content strong {
+  color: #93c5fd; /* blue-300 */
+}
+
+.restart-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.restart-btn:hover {
+  background-color: #2563eb;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  border-top-color: #3b82f6;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Free Response Styles */
+.free-response-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.free-response-textarea {
+  width: 100%;
+  min-height: 150px;
+  background-color: #374151; /* gray-700 */
+  color: #f3f4f6; /* gray-100 */
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #4b5563; /* gray-600 */
+  font-size: 1.1rem;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.free-response-textarea:focus {
+  border-color: #3b82f6; /* blue-500 */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.complete-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+}
