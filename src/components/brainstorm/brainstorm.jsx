@@ -16,6 +16,11 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [recommendedQuestions, setRecommendedQuestions] = useState([
+    "What's the best way to start brainstorming if I feel like I have no interesting experiences?",
+    "Should I write about a major accomplishment or a personal challenge I've overcome?",
+    "How can I tell if a topic is too cliche or overused?"
+  ]);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -33,11 +38,6 @@ const Home = () => {
     });
     return unsubscribe;
   }, []);
-  const [recommendedQuestions, setRecommendedQuestions] = useState([
-    "What's the best way to start brainstorming if I feel like I have no interesting experiences?",
-    "Should I write about a major accomplishment or a personal challenge I've overcome?",
-    "How can I tell if a topic is too cliche or overused?"
-  ]);
 
   // System prompt for the chatbot
   const systemPrompt = `You are an expert college counselor and writing tutor who specializes in helping students brainstorm essay ideas. Whenever a student sends a message, respond with creative, specific, and relevant suggestions for essay topics, themes, or approaches. Ask guiding questions to spark their thinking, and provide examples of how an idea could be developed into a strong essay. Be friendly, supportive, and encouraging. If the student already has a topic in mind, help them explore different angles, stories, or structures they could use. Always respond with actionable advice that helps them generate and refine ideas.`;
