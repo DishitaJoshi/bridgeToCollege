@@ -139,8 +139,9 @@ const Home = () => {
 
       if (rawQuestions) {
         try {
-          const parsedQuestions = JSON.parse(rawQuestions);
-          if (Array.isArray(parsedQuestions)) {
+          const cleanedText = rawQuestions.replace(/```(?:json)?/gi, '').trim();
+          const parsedQuestions = JSON.parse(cleanedText);
+          if (Array.isArray(parsedQuestions) && parsedQuestions.length > 0) {
             setRecommendedQuestions(parsedQuestions);
           }
         } catch (parseError) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { db, auth } from '../../firebase/firebase'; // Import from firebase folder when in components/feedback/
 import {
@@ -16,6 +16,12 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chat, recommendedQuestions, loading]);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -37,7 +43,7 @@ const Home = () => {
   const systemPrompt = `You are an expert college counselor and writing tutor who specializes in helping students brainstorm essay ideas. Whenever a student sends a message, respond with creative, specific, and relevant suggestions for essay topics, themes, or approaches. Ask guiding questions to spark their thinking, and provide examples of how an idea could be developed into a strong essay. Be friendly, supportive, and encouraging. If the student already has a topic in mind, help them explore different angles, stories, or structures they could use. Always respond with actionable advice that helps them generate and refine ideas.`;
 
   // New prompt specifically for generating recommended questions
-  const recommendedQuestionsPrompt = `Using your role as an expert college counselor and writing tutor, provide 2-3 short, actionable questions a student might want to ask you to get started with brainstorming their college essay. The questions should be relevant to a beginner who doesn't know what to write about or how to begin. Format your response as a JSON array of strings, like this: ["What are some hobbies or passions I could write about?", "How do I turn a personal experience into a great essay?", "Can you help me brainstorm topics that will make my essay stand out?"]. Do not include any other text, just the JSON.`;
+  const recommendedQuestionsPrompt = `Based on our ongoing conversation, provide 2-3 short, actionable follow-up questions the student might want to ask next to continue brainstorming and developing their college essay. Format your response strictly as a JSON array of strings, like this: ["Question 1", "Question 2"]. Do not include any other text or markdown fences, just the JSON array.`;
 
   const welcomeMessage = {
     role: 'model',
@@ -111,7 +117,7 @@ const Home = () => {
   };
 
   // Function to fetch recommended questions from the Gemini API
-  const fetchRecommendedQuestions = async () => {
+  const fetchRecommendedQuestions = async (chatHistory = chat) => {
     try {
       const res = await fetch(
         `/api/gemini`,
@@ -123,7 +129,7 @@ const Home = () => {
           body: JSON.stringify({
             // Pass the entire chat history to get relevant questions
             contents: [
-              ...chat.map(msg => ({
+              ...chatHistory.map(msg => ({
                 role: msg.role === 'model' ? 'model' : 'user',
                 parts: [{ text: msg.text }]
               })),
@@ -138,8 +144,9 @@ const Home = () => {
 
       if (rawQuestions) {
         try {
-          const parsedQuestions = JSON.parse(rawQuestions);
-          if (Array.isArray(parsedQuestions)) {
+          const cleanedText = rawQuestions.replace(/```(?:json)?/gi, '').trim();
+          const parsedQuestions = JSON.parse(cleanedText);
+          if (Array.isArray(parsedQuestions) && parsedQuestions.length > 0) {
             setRecommendedQuestions(parsedQuestions);
           }
         } catch (parseError) {
@@ -150,13 +157,6 @@ const Home = () => {
       console.error('Error fetching recommended questions:', err);
     }
   };
-
-  // Initial fetch for questions when chat is loaded
-  useEffect(() => {
-    if (chat.length > 0) {
-      fetchRecommendedQuestions();
-    }
-  }, [chat.length]);
 
   // Main function to handle user message and bot response
   const handleSend = async (message = null) => {
@@ -209,7 +209,7 @@ const Home = () => {
       await saveChatToFirebase(finalChat);
 
       // Fetch new recommended questions after a message is sent
-      await fetchRecommendedQuestions();
+      await fetchRecommendedQuestions(finalChat);
 
     } catch (err) {
       console.error('Gemini error:', err);
@@ -291,6 +291,7 @@ const Home = () => {
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="input-wrapper-spacer">
