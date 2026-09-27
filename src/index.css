@@ -113,6 +113,17 @@ button:focus-visible {
   text-align: left;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
+@keyframes suggestFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .chat-suggested-container {
   display: flex !important;
   flex-direction: column !important;
@@ -120,6 +131,7 @@ button:focus-visible {
   width: 100% !important;
   margin-bottom: 32px;
   padding-top: 16px;
+  animation: suggestFadeIn 0.4s ease forwards;
 }
 .chat-suggested-heading {
   text-align: right;

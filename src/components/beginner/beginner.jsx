@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { db, auth } from '../../firebase/firebase'; // Import from firebase folder when in components/feedback/
 import {
@@ -16,6 +16,16 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [recommendedQuestions, setRecommendedQuestions] = useState([
+    "I don't know what I want to study or do after high school - where do I start?",
+    "How do I figure out what I'm actually good at or interested in?",
+    "Is college the right path for me, or are there other options?"
+  ]);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chat, recommendedQuestions, loading]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -28,11 +38,6 @@ const Home = () => {
     });
     return unsubscribe;
   }, []);
-  const [recommendedQuestions, setRecommendedQuestions] = useState([
-    "I don't know what I want to study or do after high school - where do I start?",
-    "How do I figure out what I'm actually good at or interested in?",
-    "Is college the right path for me, or are there other options?"
-  ]);
 
   // System prompt for the chatbot
   const systemPrompt = `You are a warm, patient college counselor specializing in helping complete beginners who know absolutely nothing about college, careers, or what they want to do with their lives. Many students come to you feeling overwhelmed, confused, or completely lost about their future.
@@ -59,7 +64,7 @@ Key areas to explore with beginners:
 Remember: Your goal is to help them gain clarity about themselves first, then gradually introduce college and career concepts. Make them feel supported and less alone in this journey. Always end responses with encouragement and clear next steps.`;
 
   // New prompt specifically for generating recommended questions
-  const recommendedQuestionsPrompt = `Based on our conversation so far, predict 2-3 short, actionable questions that this student would most likely want to ask me next as their college counselor. Think about what natural follow-up questions would come to their mind given what we've discussed. The questions should represent what the student would actually say or ask to continue getting help with their college application journey. If this is the beginning of our conversation, focus on common first questions students ask when getting started. Format your response as a JSON array of strings, like this: ["What specific majors should I consider based on my interests?", "How do I research colleges that fit my criteria?", "What should I focus on first in my application timeline?"]. Do not include any other text, just the JSON.`;
+  const recommendedQuestionsPrompt = `Based on the ongoing conversation above, suggest 2-3 NEW and dynamic follow-up questions the student could ask next to continue exploring their college journey. Make sure these questions are distinct, engaging, and directly relevant to the advice or topic just discussed. Format your response strictly as a JSON array of strings, like this: ["Question 1", "Question 2"]. Do not include markdown code fences or any other text.`;
 
   const welcomeMessage = {
     role: 'model',
@@ -134,7 +139,7 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
   };
 
   // Function to fetch recommended questions from the Gemini API
-  const fetchRecommendedQuestions = async () => {
+  const fetchRecommendedQuestions = async (chatHistory = chat) => {
     try {
       const res = await fetch(
         `/api/gemini`,
@@ -146,7 +151,7 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
           body: JSON.stringify({
             // Pass the entire chat history to get relevant questions
             contents: [
-              ...chat.map(msg => ({
+              ...chatHistory.map(msg => ({
                 role: msg.role === 'model' ? 'model' : 'user',
                 parts: [{ text: msg.text }]
               })),
@@ -164,6 +169,7 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
           const cleanedText = rawQuestions.replace(/```(?:json)?/gi, '').trim();
           const parsedQuestions = JSON.parse(cleanedText);
           if (Array.isArray(parsedQuestions) && parsedQuestions.length > 0) {
+            console.log('✅ Beginner questions updated:', parsedQuestions);
             setRecommendedQuestions(parsedQuestions);
           }
         } catch (parseError) {
@@ -174,13 +180,6 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
       console.error('Error fetching recommended questions:', err);
     }
   };
-
-  // Initial fetch for questions when chat is loaded
-  useEffect(() => {
-    if (chat.length > 0) {
-      fetchRecommendedQuestions();
-    }
-  }, [chat.length]);
 
   // Main function to handle user message and bot response
   const handleSend = async (message = null) => {
@@ -233,7 +232,7 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
       await saveChatToFirebase(finalChat);
 
       // Fetch new recommended questions after a message is sent
-      await fetchRecommendedQuestions();
+      await fetchRecommendedQuestions(finalChat);
 
     } catch (err) {
       console.error('Gemini error:', err);
@@ -286,7 +285,7 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
 
         {/* Show recommended questions after all messages */}
         {recommendedQuestions.length > 0 && !loading && (
-          <div className="chat-suggested-container">
+          <div key={recommendedQuestions.join('|')} className="chat-suggested-container">
             <div className="chat-suggested-heading">
               Suggested Questions
             </div>
@@ -315,6 +314,7 @@ Remember: Your goal is to help them gain clarity about themselves first, then gr
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="input-wrapper-spacer">

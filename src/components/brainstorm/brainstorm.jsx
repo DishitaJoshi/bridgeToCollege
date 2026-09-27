@@ -147,6 +147,7 @@ const Home = () => {
           const cleanedText = rawQuestions.replace(/```(?:json)?/gi, '').trim();
           const parsedQuestions = JSON.parse(cleanedText);
           if (Array.isArray(parsedQuestions) && parsedQuestions.length > 0) {
+            console.log('✅ Brainstorm questions updated:', parsedQuestions);
             setRecommendedQuestions(parsedQuestions);
           }
         } catch (parseError) {
@@ -262,7 +263,7 @@ const Home = () => {
 
         {/* Show recommended questions after all messages */}
         {recommendedQuestions.length > 0 && !loading && (
-          <div className="chat-suggested-container">
+          <div key={recommendedQuestions.join('|')} className="chat-suggested-container">
             <div className="chat-suggested-heading">
               Suggested Questions
             </div>

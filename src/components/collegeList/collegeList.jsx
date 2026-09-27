@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { db, auth } from '../../firebase/firebase'; // Import from firebase folder when in components/feedback/
 import {
@@ -20,6 +20,17 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [recommendedQuestions, setRecommendedQuestions] = useState([
+    "Where should I even begin with building my college list?",
+    "What factors are most important for me to consider when looking at colleges?",
+    "What kind of information do you need from me to start suggesting personalized options?"
+  ]);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chat, recommendedQuestions, loading]);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -31,17 +42,12 @@ const Home = () => {
     });
     return unsubscribe;
   }, []);
-  const [recommendedQuestions, setRecommendedQuestions] = useState([
-    "Where should I even begin with building my college list?",
-    "What factors are most important for me to consider when looking at colleges?",
-    "What kind of information do you need from me to start suggesting personalized options?"
-  ]);
 
   // System prompt for the chatbot
   const systemPrompt = `You are an expert college counselor who helps students build a personalized college list. Start by asking the student short, focused questions to understand their academic profile, interests, and preferences (e.g., GPA/test scores, intended major, location, size of school, extracurriculars, financial considerations, campus culture). Based on their answers, recommend a balanced list of reach, match, and safety schools. Always explain why each college might be a good fit. Be supportive, specific, and encouraging in your responses.`;
 
   // New prompt specifically for generating recommended questions
-  const recommendedQuestionsPrompt = `Using your role as an expert college counselor, provide 2-3 short, actionable questions a student might want to **ask you** to get started with building a personalized college list. The questions should be relevant to the ongoing conversation and a beginner's stage in the process. Ask questions that student might ask like "could you create me a personalized college list?" or "what should I look for in a college I want to go to?". If the conversation is just starting, ask general questions. If the conversation has already touched on a topic (like academic interests), ask a follow-up question on the student's behalf to dig deeper (e.g., "What specific colleges are good for me?"). Format your response as a JSON array of strings, like this: ["What kind of colleges do you suggest?", "Which colleges are the best for my major?", "Which colleges are in my budget?"]. Do not include any other text, just the JSON.`;
+  const recommendedQuestionsPrompt = `Based on the ongoing conversation above, suggest 2-3 NEW and dynamic follow-up questions the student could ask next to refine their college list or explore schools further. Make sure these questions are distinct, engaging, and directly relevant to the advice or colleges just discussed. Format your response strictly as a JSON array of strings, like this: ["Question 1", "Question 2"]. Do not include markdown code fences or any other text.`;
 
   //welcome message
   const welcomeMessage = {
@@ -118,7 +124,7 @@ const Home = () => {
   };
 
   // Function to fetch recommended questions from the Gemini API
-  const fetchRecommendedQuestions = async () => {
+  const fetchRecommendedQuestions = async (chatHistory = chat) => {
     try {
       const res = await fetch(
         `/api/gemini`,
@@ -130,7 +136,7 @@ const Home = () => {
           body: JSON.stringify({
             // Pass the entire chat history to get relevant questions
             contents: [
-              ...chat.map(msg => ({
+              ...chatHistory.map(msg => ({
                 role: msg.role === 'model' ? 'model' : 'user',
                 parts: [{ text: msg.text }]
               })),
@@ -148,6 +154,7 @@ const Home = () => {
           const cleanedText = rawQuestions.replace(/```(?:json)?/gi, '').trim();
           const parsedQuestions = JSON.parse(cleanedText);
           if (Array.isArray(parsedQuestions) && parsedQuestions.length > 0) {
+            console.log('✅ CollegeList questions updated:', parsedQuestions);
             setRecommendedQuestions(parsedQuestions);
           }
         } catch (parseError) {
@@ -158,13 +165,6 @@ const Home = () => {
       console.error('Error fetching recommended questions:', err);
     }
   };
-
-  // Initial fetch for questions when chat is loaded
-  useEffect(() => {
-    if (chat.length > 0) {
-      fetchRecommendedQuestions();
-    }
-  }, [chat.length]);
 
   // Main function to handle user message and bot response
   const handleSend = async (message = null) => {
@@ -217,7 +217,7 @@ const Home = () => {
       await saveChatToFirebase(finalChat);
 
       // Fetch new recommended questions after a message is sent
-      await fetchRecommendedQuestions();
+      await fetchRecommendedQuestions(finalChat);
 
     } catch (err) {
       console.error('Gemini error:', err);
@@ -270,7 +270,7 @@ const Home = () => {
 
         {/* Show recommended questions after all messages */}
         {recommendedQuestions.length > 0 && !loading && (
-          <div className="chat-suggested-container">
+          <div key={recommendedQuestions.join('|')} className="chat-suggested-container">
             <div className="chat-suggested-heading">
               Suggested Questions
             </div>
@@ -299,6 +299,7 @@ const Home = () => {
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="input-wrapper-spacer">
